@@ -56,25 +56,27 @@ function hideLoader() {
 }
 
 // ─── FILE INPUT & DROP ───
-const dropZone  = document.getElementById('dropZone');
+const fileSelector = document.querySelector('.file-selector');
 const fileInput = document.getElementById('fileInput');
 
-dropZone.addEventListener('click', (e) => {
-  if (e.target.tagName !== 'LABEL') fileInput.click();
-});
+if (fileSelector) {
+  fileSelector.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'LABEL') fileInput.click();
+  });
 
-dropZone.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  dropZone.classList.add('dragover');
-});
+  fileSelector.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileSelector.classList.add('dragover');
+  });
 
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  fileSelector.addEventListener('dragleave', () => fileSelector.classList.remove('dragover'));
 
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  handleFiles([...e.dataTransfer.files]);
-});
+  fileSelector.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileSelector.classList.remove('dragover');
+    handleFiles([...e.dataTransfer.files]);
+  });
+}
 
 fileInput.addEventListener('change', () => {
   handleFiles([...fileInput.files]);
@@ -473,32 +475,6 @@ document.getElementById('downloadAllBtn').addEventListener('click', async () => 
 });
 
 // ─── EXPOSE GLOBALS ───
-// ─── PRESET EFFECTS ───
-function applyPreset(preset) {
-  switch(preset) {
-    case 'nightcore':
-      sliders.speed.el.value = 1.25;
-      sliders.pitch.el.value = 3;
-      sliders.volume.el.value = 110;
-      break;
-    case 'slowed':
-      sliders.speed.el.value = 0.8;
-      sliders.pitch.el.value = -2;
-      sliders.volume.el.value = 100;
-      break;
-    case 'chipmunk':
-      sliders.speed.el.value = 1.0;
-      sliders.pitch.el.value = 7;
-      sliders.volume.el.value = 100;
-      break;
-  }
-  // Update display values
-  Object.entries(sliders).forEach(([key, s]) => {
-    s.val.textContent = s.fmt(s.el.value);
-  });
-}
-
-window.applyPreset = applyPreset;
 window.processSingle = processSingle;
 window.openQrModal = openQrModal;
 window.closeQrModal = closeQrModal;
