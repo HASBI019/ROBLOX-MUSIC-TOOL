@@ -156,9 +156,9 @@ function removeFile(id) {
 // ─── CONTROLS ───
 const sliders = {
   speed:  { el: document.getElementById('speed'),  val: document.getElementById('speedVal'),  fmt: v => `${parseFloat(v).toFixed(2)}x` },
-  pitch:  { el: document.getElementById('pitch'),  val: document.getElementById('pitchVal'),  fmt: v => `${parseFloat(v) >= 0 ? '+' : ''}${parseFloat(v).toFixed(1)} semitones` },
-  bass:   { el: document.getElementById('bass'),   val: document.getElementById('bassVal'),   fmt: v => `${parseFloat(v) >= 0 ? '+' : ''}${v} dB` },
-  treble: { el: document.getElementById('treble'), val: document.getElementById('trebleVal'), fmt: v => `${parseFloat(v) >= 0 ? '+' : ''}${v} dB` },
+  pitch:  { el: document.getElementById('pitch'),  val: document.getElementById('pitchVal'),  fmt: v => `${parseFloat(v).toFixed(1)}st` },
+  bass:   { el: document.getElementById('bass'),   val: document.getElementById('bassVal'),   fmt: v => `${parseFloat(v).toFixed(0)}dB` },
+  treble: { el: document.getElementById('treble'), val: document.getElementById('trebleVal'), fmt: v => `${parseFloat(v).toFixed(0)}dB` },
   reverb: { el: document.getElementById('reverb'), val: document.getElementById('reverbVal'), fmt: v => `${v}%` },
   volume: { el: document.getElementById('volume'), val: document.getElementById('volumeVal'), fmt: v => `${v}%` },
 };
@@ -171,9 +171,9 @@ Object.entries(sliders).forEach(([key, s]) => {
 
 document.getElementById('resetBtn').addEventListener('click', () => {
   sliders.speed.el.value  = 1;   sliders.speed.val.textContent  = '1.00x';
-  sliders.pitch.el.value  = 0;   sliders.pitch.val.textContent  = '+0.0 semitones';
-  sliders.bass.el.value   = 0;   sliders.bass.val.textContent   = '+0 dB';
-  sliders.treble.el.value = 0;   sliders.treble.val.textContent = '+0 dB';
+  sliders.pitch.el.value  = 0;   sliders.pitch.val.textContent  = '0.0st';
+  sliders.bass.el.value   = 0;   sliders.bass.val.textContent   = '0dB';
+  sliders.treble.el.value = 0;   sliders.treble.val.textContent = '0dB';
   sliders.reverb.el.value = 0;   sliders.reverb.val.textContent = '0%';
   sliders.volume.el.value = 100; sliders.volume.val.textContent = '100%';
 });
@@ -473,7 +473,32 @@ document.getElementById('downloadAllBtn').addEventListener('click', async () => 
 });
 
 // ─── EXPOSE GLOBALS ───
-window.removeFile   = removeFile;
+// ─── PRESET EFFECTS ───
+function applyPreset(preset) {
+  switch(preset) {
+    case 'nightcore':
+      sliders.speed.el.value = 1.25;
+      sliders.pitch.el.value = 3;
+      sliders.volume.el.value = 110;
+      break;
+    case 'slowed':
+      sliders.speed.el.value = 0.8;
+      sliders.pitch.el.value = -2;
+      sliders.volume.el.value = 100;
+      break;
+    case 'chipmunk':
+      sliders.speed.el.value = 1.0;
+      sliders.pitch.el.value = 7;
+      sliders.volume.el.value = 100;
+      break;
+  }
+  // Update display values
+  Object.entries(sliders).forEach(([key, s]) => {
+    s.val.textContent = s.fmt(s.el.value);
+  });
+}
+
+window.applyPreset = applyPreset;
 window.processSingle = processSingle;
 window.openQrModal = openQrModal;
 window.closeQrModal = closeQrModal;
@@ -500,3 +525,45 @@ document.addEventListener('click', (event) => {
     closeQrModal();
   }
 });
+
+// ─── PRESET EFFECTS ───
+function applyPreset(preset) {
+  switch(preset) {
+    case 'nightcore':
+      sliders.speed.el.value = 1.25;
+      sliders.pitch.el.value = 3;
+      sliders.volume.el.value = 110;
+      break;
+    case 'slowed':
+      sliders.speed.el.value = 0.8;
+      sliders.pitch.el.value = -2;
+      sliders.volume.el.value = 100;
+      break;
+    case 'chipmunk':
+      sliders.speed.el.value = 1.0;
+      sliders.pitch.el.value = 7;
+      sliders.volume.el.value = 100;
+      break;
+    case 'deepvoice':
+      sliders.speed.el.value = 0.9;
+      sliders.pitch.el.value = -5;
+      sliders.volume.el.value = 100;
+      break;
+    case 'vaporwave':
+      sliders.speed.el.value = 0.85;
+      sliders.pitch.el.value = -3;
+      sliders.reverb.el.value = 40;
+      sliders.volume.el.value = 100;
+      break;
+    case 'bass':
+      sliders.speed.el.value = 1.0;
+      sliders.bass.el.value = 8;
+      sliders.volume.el.value = 100;
+      break;
+  }
+  Object.entries(sliders).forEach(([key, s]) => {
+    s.val.textContent = s.fmt(s.el.value);
+  });
+}
+
+window.applyPreset = applyPreset;

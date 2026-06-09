@@ -31,92 +31,133 @@
   <!-- TAB: MUSIC TOOL -->
   <main id="tab-tool" class="tab-content active">
 
-    <div class="tool-grid">
-      <div class="tool-main">
-        <!-- UPLOAD ZONE -->
-        <section class="section">
-          <h2 class="section-title">Upload Musik</h2>
-          <div class="drop-zone" id="dropZone">
-            <div class="drop-icon">📂</div>
-            <p class="drop-text">Drag & drop file musik di sini</p>
-            <p class="drop-sub">MP3, WAV, OGG, FLAC — bisa banyak sekaligus</p>
-            <label class="btn-upload" for="fileInput">Pilih File</label>
-            <input type="file" id="fileInput" accept="audio/*" multiple hidden />
+    <div class="studio-container">
+      <!-- MAIN PLAYER SECTION -->
+      <section class="player-section">
+        <div class="file-selector">
+          <div class="file-info-card">
+            <span id="currentFileName" class="file-name-display">Pilih musik untuk mulai</span>
+            <span id="currentFileInfo" class="file-info-display">Belum ada file</span>
+          </div>
+          <label class="btn-select-file" for="fileInput">📂 Pilih File / Drag & Drop</label>
+          <input type="file" id="fileInput" accept="audio/*" multiple hidden />
+        </div>
+
+        <!-- WAVEFORM SECTION -->
+        <div class="waveform-container">
+          <canvas id="waveformCanvas" class="waveform-canvas" height="200"></canvas>
+          <div class="playback-controls">
+            <button id="playBtn" class="play-btn">▶</button>
+            <span id="timeDisplay" class="time-display">0:00 / 0:00</span>
+            <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0" />
+          </div>
+        </div>
+
+        <!-- FILE LIST -->
+        <div class="file-list-studio" id="fileList"></div>
+      </section>
+
+      <!-- CONTROLS SECTION -->
+      <section class="controls-section">
+        <div class="processor-header">
+          <h2 class="processor-title">AUDIO PROCESSOR</h2>
+          <p class="processor-subtitle">Atur parameter audio dengan presisi tinggi</p>
+        </div>
+
+        <div class="controls-grid-studio">
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="speedVal">1.00x</span></div>
+            <label class="knob-label">SPEED</label>
+            <input type="range" id="speed" min="0.5" max="2" step="0.01" value="1" class="knob-slider" />
           </div>
 
-          <!-- FILE LIST -->
-          <div class="file-list" id="fileList"></div>
-        </section>
-
-        <!-- PREVIEW SECTION -->
-        <section class="section" id="previewSection">
-          <h2 class="section-title">Preview & Download</h2>
-          <div class="notice-roblox">
-            ⚠️ <strong>Catatan Roblox:</strong> Tool ini memproses audio di browser kamu. Ada <em>kemungkinan</em> musik bisa lolos copyright di Roblox Studio, tapi tidak ada jaminan 100%. Disarankan download dalam format <strong>OGG</strong>.
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="pitchVal">0st</span></div>
+            <label class="knob-label">PITCH</label>
+            <input type="range" id="pitch" min="-12" max="12" step="0.5" value="0" class="knob-slider" />
           </div>
 
-          <div class="preview-list" id="previewList"></div>
-
-          <div class="download-all-wrap">
-            <div class="format-pick">
-              <span>Format Download:</span>
-              <label><input type="radio" name="fmt" value="ogg" checked /> OGG <span class="badge-rec">Recommended</span></label>
-              <label><input type="radio" name="fmt" value="mp3" /> MP3</label>
-            </div>
-            <button class="btn-download-all" id="downloadAllBtn">⬇ Download Semua</button>
-          </div>
-        </section>
-      </div>
-
-      <aside class="tool-side">
-        <!-- CONTROLS -->
-        <section class="section" id="controlsSection">
-          <div class="side-header">
-            <div>
-              <h2 class="section-title">Kontrol Audio</h2>
-              <p class="side-subtitle">Atur semua parameter lebih cepat tanpa harus menunggu upload.</p>
-            </div>
-          </div>
-          <div class="controls-grid">
-
-            <div class="control-item">
-              <label>Speed <span class="val" id="speedVal">1.00x</span></label>
-              <input type="range" id="speed" min="0.5" max="2" step="0.01" value="1" />
-            </div>
-
-            <div class="control-item">
-              <label>Pitch <span class="val" id="pitchVal">0.00 semitones</span></label>
-              <input type="range" id="pitch" min="-12" max="12" step="0.5" value="0" />
-            </div>
-
-            <div class="control-item">
-              <label>Bass <span class="val" id="bassVal">0 dB</span></label>
-              <input type="range" id="bass" min="-15" max="15" step="1" value="0" />
-            </div>
-
-            <div class="control-item">
-              <label>Treble <span class="val" id="trebleVal">0 dB</span></label>
-              <input type="range" id="treble" min="-15" max="15" step="1" value="0" />
-            </div>
-
-            <div class="control-item">
-              <label>Reverb <span class="val" id="reverbVal">0%</span></label>
-              <input type="range" id="reverb" min="0" max="100" step="1" value="0" />
-            </div>
-
-            <div class="control-item">
-              <label>Volume <span class="val" id="volumeVal">100%</span></label>
-              <input type="range" id="volume" min="0" max="200" step="1" value="100" />
-            </div>
-
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="volumeVal">100%</span></div>
+            <label class="knob-label">VOLUME</label>
+            <input type="range" id="volume" min="0" max="200" step="1" value="100" class="knob-slider" />
           </div>
 
-          <div class="controls-actions">
-            <button class="btn-reset" id="resetBtn">↺ Reset Semua</button>
-            <button class="btn-apply" id="applyBtn">✨ Apply ke Semua File</button>
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="bassVal">0dB</span></div>
+            <label class="knob-label">BASS</label>
+            <input type="range" id="bass" min="-15" max="15" step="1" value="0" class="knob-slider" />
           </div>
-        </section>
-      </aside>
+
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="trebleVal">0dB</span></div>
+            <label class="knob-label">TREBLE</label>
+            <input type="range" id="treble" min="-15" max="15" step="1" value="0" class="knob-slider" />
+          </div>
+
+          <div class="control-knob">
+            <div class="knob-display"><span class="val" id="reverbVal">0%</span></div>
+            <label class="knob-label">REVERB</label>
+            <input type="range" id="reverb" min="0" max="100" step="1" value="0" class="knob-slider" />
+          </div>
+        </div>
+
+        <!-- PRESETS GRID -->
+        <div class="presets-grid-studio">
+          <button class="preset-card" onclick="applyPreset('nightcore')">
+            <span class="preset-icon">🎵</span>
+            <span class="preset-name">Nightcore</span>
+            <span class="preset-params">1.25x / +3st</span>
+          </button>
+          <button class="preset-card" onclick="applyPreset('slowed')">
+            <span class="preset-icon">🐢</span>
+            <span class="preset-name">Slowed</span>
+            <span class="preset-params">0.8x / -2st</span>
+          </button>
+          <button class="preset-card" onclick="applyPreset('chipmunk')">
+            <span class="preset-icon">🎈</span>
+            <span class="preset-name">Chipmunk</span>
+            <span class="preset-params">1.0x / +7st</span>
+          </button>
+          <button class="preset-card" onclick="applyPreset('deepvoice')">
+            <span class="preset-icon">🔊</span>
+            <span class="preset-name">Deep Voice</span>
+            <span class="preset-params">0.9x / -5st</span>
+          </button>
+          <button class="preset-card" onclick="applyPreset('vaporwave')">
+            <span class="preset-icon">☁️</span>
+            <span class="preset-name">Vaporwave</span>
+            <span class="preset-params">0.85x / -3st</span>
+          </button>
+          <button class="preset-card" onclick="applyPreset('bass')">
+            <span class="preset-icon">🔉</span>
+            <span class="preset-name">Bass Boost</span>
+            <span class="preset-params">1.0x / +8dB</span>
+          </button>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="action-buttons">
+          <button class="btn-reset" id="resetBtn">↺ Reset</button>
+          <button class="btn-apply" id="applyBtn">✨ Process Audio</button>
+          <button class="btn-download-all" id="downloadAllBtn">⬇ Download</button>
+        </div>
+      </section>
+
+      <!-- PREVIEW SECTION -->
+      <section class="preview-section">
+        <h2 class="section-title">Preview & Export</h2>
+        <div class="notice-roblox">
+          ⚠️ <strong>Catatan Roblox:</strong> Tool ini memproses audio di browser. Ada kemungkinan musik lolos copyright di Roblox Studio.
+        </div>
+        <div class="preview-list" id="previewList"></div>
+
+        <div class="download-format">
+          <span>Format Export:</span>
+          <label><input type="radio" name="fmt" value="ogg" checked /> OGG <span class="badge-rec">Rekomendasi</span></label>
+          <label><input type="radio" name="fmt" value="mp3" /> MP3</label>
+        </div>
+      </section>
     </div>
 
     <!-- LOADER -->
