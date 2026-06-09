@@ -13,7 +13,9 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="brand">
-        <span class="brand-icon">🎵</span>
+        <div class="brand-logo-wrap">
+          <img src="assets/logo.png" alt="ITS OKE COMMUNITY" class="brand-logo" />
+        </div>
         <div>
           <span class="brand-name">ITS OKE COMMUNITY</span>
           <span class="brand-sub">Roblox Music Tool</span>
@@ -29,82 +31,93 @@
   <!-- TAB: MUSIC TOOL -->
   <main id="tab-tool" class="tab-content active">
 
-    <!-- UPLOAD ZONE -->
-    <section class="section">
-      <h2 class="section-title">Upload Musik</h2>
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-icon">📂</div>
-        <p class="drop-text">Drag & drop file musik di sini</p>
-        <p class="drop-sub">MP3, WAV, OGG, FLAC — bisa banyak sekaligus</p>
-        <label class="btn-upload" for="fileInput">Pilih File</label>
-        <input type="file" id="fileInput" accept="audio/*" multiple hidden />
+    <div class="tool-grid">
+      <div class="tool-main">
+        <!-- UPLOAD ZONE -->
+        <section class="section">
+          <h2 class="section-title">Upload Musik</h2>
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">📂</div>
+            <p class="drop-text">Drag & drop file musik di sini</p>
+            <p class="drop-sub">MP3, WAV, OGG, FLAC — bisa banyak sekaligus</p>
+            <label class="btn-upload" for="fileInput">Pilih File</label>
+            <input type="file" id="fileInput" accept="audio/*" multiple hidden />
+          </div>
+
+          <!-- FILE LIST -->
+          <div class="file-list" id="fileList"></div>
+        </section>
+
+        <!-- PREVIEW SECTION -->
+        <section class="section" id="previewSection">
+          <h2 class="section-title">Preview & Download</h2>
+          <div class="notice-roblox">
+            ⚠️ <strong>Catatan Roblox:</strong> Tool ini memproses audio di browser kamu. Ada <em>kemungkinan</em> musik bisa lolos copyright di Roblox Studio, tapi tidak ada jaminan 100%. Disarankan download dalam format <strong>OGG</strong>.
+          </div>
+
+          <div class="preview-list" id="previewList"></div>
+
+          <div class="download-all-wrap">
+            <div class="format-pick">
+              <span>Format Download:</span>
+              <label><input type="radio" name="fmt" value="ogg" checked /> OGG <span class="badge-rec">Recommended</span></label>
+              <label><input type="radio" name="fmt" value="mp3" /> MP3</label>
+            </div>
+            <button class="btn-download-all" id="downloadAllBtn">⬇ Download Semua</button>
+          </div>
+        </section>
       </div>
 
-      <!-- FILE LIST -->
-      <div class="file-list" id="fileList"></div>
-    </section>
+      <aside class="tool-side">
+        <!-- CONTROLS -->
+        <section class="section" id="controlsSection">
+          <div class="side-header">
+            <div>
+              <h2 class="section-title">Kontrol Audio</h2>
+              <p class="side-subtitle">Atur semua parameter lebih cepat tanpa harus menunggu upload.</p>
+            </div>
+          </div>
+          <div class="controls-grid">
 
-    <!-- CONTROLS -->
-    <section class="section" id="controlsSection" style="display:none">
-      <h2 class="section-title">Controls</h2>
-      <div class="controls-grid">
+            <div class="control-item">
+              <label>Speed <span class="val" id="speedVal">1.00x</span></label>
+              <input type="range" id="speed" min="0.5" max="2" step="0.01" value="1" />
+            </div>
 
-        <div class="control-item">
-          <label>Speed <span class="val" id="speedVal">1.00x</span></label>
-          <input type="range" id="speed" min="0.5" max="2" step="0.01" value="1" />
-        </div>
+            <div class="control-item">
+              <label>Pitch <span class="val" id="pitchVal">0.00 semitones</span></label>
+              <input type="range" id="pitch" min="-12" max="12" step="0.5" value="0" />
+            </div>
 
-        <div class="control-item">
-          <label>Pitch <span class="val" id="pitchVal">0.00 semitones</span></label>
-          <input type="range" id="pitch" min="-12" max="12" step="0.5" value="0" />
-        </div>
+            <div class="control-item">
+              <label>Bass <span class="val" id="bassVal">0 dB</span></label>
+              <input type="range" id="bass" min="-15" max="15" step="1" value="0" />
+            </div>
 
-        <div class="control-item">
-          <label>Bass <span class="val" id="bassVal">0 dB</span></label>
-          <input type="range" id="bass" min="-15" max="15" step="1" value="0" />
-        </div>
+            <div class="control-item">
+              <label>Treble <span class="val" id="trebleVal">0 dB</span></label>
+              <input type="range" id="treble" min="-15" max="15" step="1" value="0" />
+            </div>
 
-        <div class="control-item">
-          <label>Treble <span class="val" id="trebleVal">0 dB</span></label>
-          <input type="range" id="treble" min="-15" max="15" step="1" value="0" />
-        </div>
+            <div class="control-item">
+              <label>Reverb <span class="val" id="reverbVal">0%</span></label>
+              <input type="range" id="reverb" min="0" max="100" step="1" value="0" />
+            </div>
 
-        <div class="control-item">
-          <label>Reverb <span class="val" id="reverbVal">0%</span></label>
-          <input type="range" id="reverb" min="0" max="100" step="1" value="0" />
-        </div>
+            <div class="control-item">
+              <label>Volume <span class="val" id="volumeVal">100%</span></label>
+              <input type="range" id="volume" min="0" max="200" step="1" value="100" />
+            </div>
 
-        <div class="control-item">
-          <label>Volume <span class="val" id="volumeVal">100%</span></label>
-          <input type="range" id="volume" min="0" max="200" step="1" value="100" />
-        </div>
+          </div>
 
-      </div>
-
-      <div class="controls-actions">
-        <button class="btn-reset" id="resetBtn">↺ Reset Semua</button>
-        <button class="btn-apply" id="applyBtn">✨ Apply ke Semua File</button>
-      </div>
-    </section>
-
-    <!-- PREVIEW SECTION -->
-    <section class="section" id="previewSection" style="display:none">
-      <h2 class="section-title">Preview & Download</h2>
-      <div class="notice-roblox">
-        ⚠️ <strong>Catatan Roblox:</strong> Tool ini memproses audio di browser kamu. Ada <em>kemungkinan</em> musik bisa lolos copyright di Roblox Studio, tapi tidak ada jaminan 100%. Disarankan download dalam format <strong>OGG</strong>.
-      </div>
-
-      <div class="preview-list" id="previewList"></div>
-
-      <div class="download-all-wrap">
-        <div class="format-pick">
-          <span>Format Download:</span>
-          <label><input type="radio" name="fmt" value="ogg" checked /> OGG <span class="badge-rec">Recommended</span></label>
-          <label><input type="radio" name="fmt" value="mp3" /> MP3</label>
-        </div>
-        <button class="btn-download-all" id="downloadAllBtn">⬇ Download Semua</button>
-      </div>
-    </section>
+          <div class="controls-actions">
+            <button class="btn-reset" id="resetBtn">↺ Reset Semua</button>
+            <button class="btn-apply" id="applyBtn">✨ Apply ke Semua File</button>
+          </div>
+        </section>
+      </aside>
+    </div>
 
     <!-- LOADER -->
     <div class="loader-overlay" id="loaderOverlay" style="display:none">
@@ -128,7 +141,7 @@
 
       <div class="qr-wrap">
         <div class="qr-card">
-          <img src="assets/qr.png" alt="QR Support" class="qr-img" id="qrImage" onerror="this.parentElement.innerHTML='<div class=qr-placeholder>📷<br/>Tambahkan file<br/>assets/qr.png</div>'" />
+          <img src="assets/qr.png" alt="QR Support" class="qr-img clickable" id="qrImage" onclick="openQrModal()" title="Klik untuk perbesar QR" onerror="this.parentElement.innerHTML='<div class=qr-placeholder>📷<br/>Tambahkan file<br/>assets/qr.png</div>'" />
           <p class="qr-label">Scan untuk support</p>
         </div>
       </div>
@@ -139,6 +152,14 @@
       </div>
     </section>
   </main>
+
+  <div class="modal-overlay" id="qrModal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" id="qrModalClose" aria-label="Tutup QR">×</button>
+      <img src="assets/qr.png" alt="QR Support ITS OKE COMMUNITY" class="qr-img qr-img-large" />
+      <p class="qr-label">QR support diperbesar agar scan lebih mudah.</p>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="site-footer">

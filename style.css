@@ -64,10 +64,20 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.brand-icon { font-size: 26px; }
+.brand-logo-wrap {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+}
 
 .brand-name {
   display: block;
@@ -121,10 +131,49 @@ body {
 .tab-content {
   display: none;
   flex: 1;
-  max-width: 900px;
   width: 100%;
+  padding: 32px 24px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.9fr) minmax(280px, 1fr);
+  gap: 24px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 20px;
+}
+
+.tool-main,
+.tool-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.side-header {
+  margin-bottom: 16px;
+}
+
+.side-subtitle {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.preview-empty {
+  background: rgba(59,130,246,0.08);
+  border: 1px dashed rgba(59,130,246,0.4);
+  color: var(--text-dim);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 960px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .tab-content.active { display: block; }
@@ -573,6 +622,59 @@ input[type="range"]::-moz-range-thumb {
   object-fit: contain;
   background: #fff;
   padding: 8px;
+}
+
+.qr-img.clickable {
+  cursor: zoom-in;
+}
+
+.qr-img-large {
+  width: min(420px, 90vw);
+  height: min(420px, 90vw);
+  max-height: 90vh;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,12,18,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 24px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(59,130,246,0.15);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: rgba(59,130,246,0.28);
 }
 
 .qr-placeholder {

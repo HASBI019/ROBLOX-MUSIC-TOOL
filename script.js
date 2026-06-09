@@ -367,7 +367,10 @@ async function compressBlob(blob, id, fmt) {
 // ─── RENDER PREVIEW LIST ───
 function renderPreviewList() {
   const el = document.getElementById('previewList');
-  if (!files.length) { el.innerHTML = ''; return; }
+  if (!files.length) {
+    el.innerHTML = `<div class="preview-empty">Upload musik di atas untuk melihat preview, memproses file, dan menyiapkan download audio.</div>`;
+    return;
+  }
 
   el.innerHTML = files.map(entry => {
     const hasProcessed = !!entry.processedUrl;
@@ -472,3 +475,28 @@ document.getElementById('downloadAllBtn').addEventListener('click', async () => 
 // ─── EXPOSE GLOBALS ───
 window.removeFile   = removeFile;
 window.processSingle = processSingle;
+window.openQrModal = openQrModal;
+window.closeQrModal = closeQrModal;
+
+function openQrModal() {
+  const modal = document.getElementById('qrModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeQrModal() {
+  const modal = document.getElementById('qrModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+document.addEventListener('click', (event) => {
+  const modal = document.getElementById('qrModal');
+  if (!modal || !modal.classList.contains('active')) return;
+
+  if (event.target === modal || event.target.closest('#qrModalClose')) {
+    closeQrModal();
+  }
+});
